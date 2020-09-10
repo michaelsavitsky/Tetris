@@ -67,11 +67,12 @@ function loop(ctx) {
             newBlock.blocks.forEach((block, i) => {
                 block.y -= 1;
                 settledBlocks[block.x][block.y] = true;
-                newBlock = new GameBlock();
+                console.log(settledBlocks[block.x][block.y])
                 //check for lines in settledBlocks
                 //remove lines from settled blocks
                 //move all lines above removed row down
             });
+            newBlock = new GameBlock();
         }
         //Fill background
         ctx.fillStyle = "black";
@@ -89,7 +90,7 @@ function loop(ctx) {
         //Fill current block
         ctx.fillStyle = "green"
         newBlock.blocks.forEach((block, i) => ctx.fillRect(block.x * 15, block.y * 15, 15, 15));
-    }, 100);
+    }, 500);
 }
 
 window.addEventListener("keydown", checkKey, false)
@@ -102,7 +103,7 @@ function checkKey(e) {
         //Left arrow key
         let collided = false;
         newBlock.blocks.forEach((block, i) => {
-            if (block.x <= 0) collided = true;
+            if (block.x <= 0 || settledBlocks[block.x][block.y]) collided = true;
         });
         if (!collided) newBlock.blocks.forEach((block, i) => block.x -= 1)
     }
@@ -110,7 +111,7 @@ function checkKey(e) {
         //Right arrow key
         let collided = false;
         newBlock.blocks.forEach((block, i) => {
-            if (block.x >= 19) collided = true;
+            if (block.x >= 19 || settledBlocks[block.x][block.y]) collided = true;
         });
         if (!collided) newBlock.blocks.forEach((block, i) => block.x += 1)
     }
