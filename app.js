@@ -1,3 +1,46 @@
+class GameBlock {
+    constructor() {
+        var ran = Math.floor(Math.random() * 7);
+        switch (ran) {
+            //Line piece
+            case 0:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(10, 3)]
+                break;
+            //T piece
+            case 1:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(11, 1)]
+                break;
+            //Square piece
+            case 2:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(11, 0), new Block(11, 1)]
+                break;
+            //L piece
+            case 3:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(11, 2)]
+                break;
+            //Reverse L piece
+            case 4:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(9, 2)]
+                break;
+            //Squigly piece
+            case 5:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(11, 1), new Block(11, 2)]
+                break;
+            //Reverse squigly piece
+            case 6:
+                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(9, 1), new Block(9, 2)]
+                break;
+        }
+    }
+}
+class Block {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.colour = "red";
+    }
+}
+
 var settledBlocks = Array.from(Array(20), () => new Array(40));
 var newBlock = new GameBlock();
 // console.log(settledBlocks)
@@ -49,60 +92,26 @@ function loop(ctx) {
     }, 100);
 }
 
-class GameBlock {
-    constructor() {
-        var ran = Math.floor(Math.random() * 7);
-        switch (ran) {
-            //Line piece
-            case 0:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(10, 3)]
-                break;
-            //T piece
-            case 1:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(11, 1)]
-                break;
-            //Square piece
-            case 2:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(11, 0), new Block(11, 1)]
-                break;
-            //L piece
-            case 3:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(11, 2)]
-                break;
-            //Reverse L piece
-            case 4:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(10, 2), new Block(9, 2)]
-                break;
-            //Squigly piece
-            case 5:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(11, 1), new Block(11, 2)]
-                break;
-            //Reverse squigly piece
-            case 6:
-                this.blocks = [new Block(10, 0), new Block(10, 1), new Block(9, 1), new Block(9, 2)]
-                break;
-        }
-    }
-}
-class Block {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.colour = "red";
-    }
-}
-
-document.onkeydown = checkKey;
+window.addEventListener("keydown", checkKey, false)
 
 function checkKey(e) {
-    if (e.keyCode == '38') { }
-    else if (e.keyCode == '40') { }
-    else if (e.keyCode == '37') {
+    console.log(e)
+    if (e.key == 'ArrowDown') { }
+    else if (e.key == 'ArrowUp') { }
+    else if (e.key == 'ArrowLeft') {
         //Left arrow key
-        // newBlock.blocks.forEach((block, i) => block.x -= 1);
+        let collided = false;
+        newBlock.blocks.forEach((block, i) => {
+            if (block.x <= 0) collided = true;
+        });
+        if (!collided) newBlock.blocks.forEach((block, i) => block.x -= 1)
     }
-    else if (e.keyCode == '39') {
+    else if (e.key == 'ArrowRight') {
         //Right arrow key
-        // newBlock.blocks.forEach((block, i) => block.x += 1);
+        let collided = false;
+        newBlock.blocks.forEach((block, i) => {
+            if (block.x >= 19) collided = true;
+        });
+        if (!collided) newBlock.blocks.forEach((block, i) => block.x += 1)
     }
 }
